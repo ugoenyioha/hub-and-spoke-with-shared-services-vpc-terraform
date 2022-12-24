@@ -6,26 +6,26 @@
 output "vpcs" {
   description = "VPCs created."
   value = {
-    spoke           = { for k, v in module.spoke_vpcs : k => v.vpc_attributes.id }
+    # spoke           = { for k, v in module.spoke_vpcs : k => v.vpc_attributes.id }
     shared_services = module.shared_services_vpc["shared-services-vpc"].vpc_attributes.id
   }
 }
 
-output "transit_gateway" {
-  description = "Transit Gateway resources."
-  value = {
-    id = aws_ec2_transit_gateway.tgw.id
-    route_tables = {
-      spoke           = aws_ec2_transit_gateway_route_table.spoke_vpc_tgw_rt.id
-      shared_services = aws_ec2_transit_gateway_route_table.shared_services_vpc_tgw_rt.id
-    }
-  }
-}
+# output "transit_gateway" {
+#   description = "Transit Gateway resources."
+#   value = {
+#     id = aws_ec2_transit_gateway.tgw.id
+#     route_tables = {
+#       spoke           = aws_ec2_transit_gateway_route_table.spoke_vpc_tgw_rt.id
+#       shared_services = aws_ec2_transit_gateway_route_table.shared_services_vpc_tgw_rt.id
+#     }
+#   }
+# }
 
-output "ec2_instances" {
-  description = "Instances created in each Spoke VPC."
-  value       = { for k, v in module.compute : k => v.instances_created }
-}
+# output "ec2_instances" {
+#   description = "Instances created in each Spoke VPC."
+#   value       = { for k, v in module.compute : k => v.instances_created }
+# }
 
 output "vpc_endpoints" {
   description = "VPC endpoints created."
@@ -40,7 +40,7 @@ output "route53_resolver_endpoints" {
   }
 }
 
-output "private_hosted_zones" {
-  description = "Private Hosted Zones."
-  value       = { for k, v in aws_route53_zone.private_hosted_zone : k => v.id }
-}
+# output "private_hosted_zones" {
+#   description = "Private Hosted Zones."
+#   value       = { for k, v in aws_route53_zone.private_hosted_zone : k => v.id }
+# }

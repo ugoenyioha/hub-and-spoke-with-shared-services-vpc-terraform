@@ -7,7 +7,7 @@
 variable "aws_region" {
   type        = string
   description = "AWS Region to create the environment."
-  default     = "eu-west-2"
+  default     = "us-west-2"
 }
 
 # PROJECT IDENTIFIER
@@ -59,13 +59,23 @@ variable "vpcs" {
         retention_in_days    = 7
       }
     }
+    "shared-hosting-private-vpc" = {
+      type             = "shared-hosting-private"
+      cidr_block       = "10.0.0.0/16"
+      workload_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+      number_azs       = 3
+      flow_log_config = {
+        log_destination_type = "cloud-watch-logs" # Options: "cloud-watch-logs", "s3", "none"
+        retention_in_days    = 7
+      }
+    }
   }
 }
 
 variable "on_premises_cidr" {
   type        = string
   description = "On-premises CIDR block."
-  default     = "192.168.0.0/16"
+  default     = "192.168.1.0/24"
 }
 
 variable "forwarding_rules" {
@@ -73,14 +83,14 @@ variable "forwarding_rules" {
   description = "Forwarding rules to on-premises DNS servers."
   default = {
     "example-domain" = {
-      domain_name = "example.com"
+      domain_name = "usableapps.io"
       rule_type   = "FORWARD"
-      target_ip   = ["1.1.1.1", "2.2.2.2"]
+      target_ip   = ["172.64.33.185", "108.162.192.242"]
     }
-    "test-domain" = {
-      domain_name = "test.es"
-      rule_type   = "FORWARD"
-      target_ip   = ["1.1.1.1"]
-    }
+    # "test-domain" = {
+    #   domain_name = "test.usableapps.io"
+    #   rule_type   = "FORWARD"
+    #   target_ip   = ["1.1.1.1"]
+    # }
   }
 }
